@@ -8481,3 +8481,23 @@ INSERT IGNORE INTO `playercreateinfo_spell_custom` VALUES
 ('0', '128', '227', 'Staves'),
 ('0', '256', '227', 'Staves'),
 ('0', '1024', '227', 'Staves');
+
+-- =====================================================================
+-- ARAC starting-weapon SKILL fix. On this core the weapon skill that
+-- Player::CanUseItem checks is granted at creation from
+-- playercreateinfo_skills (via LearnDefaultSkills, gated by
+-- skillraceclassinfo_dbc) -- NOT from proficiency spells. Non-native ARAC
+-- combos had no skill row for their starting weapon (e.g. human hunter had
+-- no Two-Handed Axes/172), so the server rejected the equip with a
+-- "proficiency" error. Grant each class the skill for its ARAC starting
+-- weapon, all races (racemask 0). Standard class weapons only, so power is
+-- unchanged; rank 0 = initial step; INSERT IGNORE leaves existing rows.
+-- =====================================================================
+INSERT IGNORE INTO `playercreateinfo_skills` (`racemask`, `classmask`, `skill`, `rank`) VALUES
+('0', '1', '172', '0'),
+('0', '1', '55', '0'),
+('0', '1', '176', '0'),
+('0', '2', '55', '0'),
+('0', '4', '172', '0'),
+('0', '16', '136', '0'),
+('0', '256', '136', '0');
