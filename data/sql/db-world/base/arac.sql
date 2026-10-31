@@ -8451,3 +8451,33 @@ INSERT INTO `player_shapeshift_model` (`ShapeshiftID`, `RaceID`, `CustomizationI
 (8, 11, 255, 2, @Draenei_DireBear_Form),
 (27, 11, 255, 2, @Draenei_EpicFlight_Form),
 (29, 11, 255, 2, @Draenei_Flight_Form);
+
+-- =====================================================================
+-- ARAC proficiency fix: grant each class the weapon proficiency that
+-- matches its ARAC starting weapon, for every race (racemask 0 = all).
+-- Non-native ARAC combos (e.g. human hunter) rely solely on this table
+-- and were missing the proficiency for their starting weapon, so it
+-- could not be equipped. Every grant is a standard proficiency of that
+-- class (the starting weapons are the ones native races already use),
+-- so class power is unchanged. Native combos already have these via the
+-- stock playercreateinfo_spell table; INSERT IGNORE keeps the duplicate
+-- harmless.
+-- =====================================================================
+INSERT IGNORE INTO `playercreateinfo_spell_custom` VALUES
+('0', '1', '197', 'Two-Handed Axes'),
+('0', '1', '199', 'Two-Handed Maces'),
+('0', '1', '202', 'Two-Handed Swords'),
+('0', '1', '2567', 'Thrown'),
+('0', '2', '199', 'Two-Handed Maces'),
+('0', '2', '202', 'Two-Handed Swords'),
+('0', '4', '197', 'Two-Handed Axes'),
+('0', '4', '264', 'Bows'),
+('0', '4', '266', 'Guns'),
+('0', '4', '5011', 'Crossbows'),
+('0', '8', '1180', 'Daggers'),
+('0', '8', '2567', 'Thrown'),
+('0', '16', '227', 'Staves'),
+('0', '64', '198', 'One-Handed Maces'),
+('0', '128', '227', 'Staves'),
+('0', '256', '227', 'Staves'),
+('0', '1024', '227', 'Staves');
